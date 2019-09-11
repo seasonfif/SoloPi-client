@@ -1,12 +1,13 @@
 package com.sogou.solopiapp;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.sogou.modulebus.routerbus.RouterBus;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     Button upload, download;
 
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.upload:
                 NetManager.upload();
+//                RouterBus.getInstance().build("/LoginActivity").navigation(this);
                 break;
 
             case R.id.download:
                 NetManager.download();
+//                ARouter.getInstance().build("/test/activity").navigation();
                 break;
         }
     }

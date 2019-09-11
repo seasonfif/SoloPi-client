@@ -1,0 +1,23 @@
+apply plugin: 'sogouplugin'
+
+/*def dependencyMode = "implementation"
+def annotationMode = "annotationProcessor"
+//project.dependencies.add(dependencyMode, project(':modulebus'))
+project.dependencies.add(dependencyMode, "com.sogou.module:modulebus:1.0.0-SNAPSHOT")
+project.dependencies.add(dependencyMode, "com.sogou.module:annotationProcessor:1.0.0-SNAPSHOT")
+project.dependencies.add(annotationMode, "com.sogou.module:annotationProcessor:1.0.0-SNAPSHOT")*/
+
+/*
+if(project.ext.has("runAsApp") && project.ext.runAsApp){
+    ext.exportInfos = [
+            [ //自动注册组件
+              'scanInterface'   : 'com.sogou.modulebus.functionbus.IExported'
+              , 'destClass'     : 'com.sogou.modulebus.functionbus.FunctionBus'
+              , 'methodCall'    : 'addFunction'
+            ]
+    ]
+
+    sogouPluginConfig {
+        exportInfoList = exportInfos
+    }
+}*/
