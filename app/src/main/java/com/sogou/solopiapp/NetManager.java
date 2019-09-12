@@ -1,15 +1,22 @@
 package com.sogou.solopiapp;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -28,14 +35,41 @@ public class NetManager {
 
     static {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.31.231:3000")
+                .baseUrl("http://10.129.24.238:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public static void upload(){
+    public static void upload(Context context){
 
-        String path = Environment.getExternalStorageDirectory() + File.separator + "coverage.ec";
+        AssetManager manager = context.getAssets();
+        Map<String, RequestBody> map = new HashMap<>();
+        try{
+            InputStream in1 = manager.open("net_font.json");
+            InputStream in2 = manager.open("net_preload.json");
+            InputStream in3 = manager.open("reading_mode.json");
+
+            RequestBody body1 = RequestBody.create(MediaType.parse("text/*"), readStream(in1));
+            RequestBody body2 = RequestBody.create(MediaType.parse("text/*"), readStream(in2));
+            RequestBody body3 = RequestBody.create(MediaType.parse("text/*"), readStream(in3));
+
+            List<TestCase> cases = new ArrayList<>();
+            cases.add(new TestCase("net_font.json", "feed", "sogou browser", "sogou.mobile.explore"));
+            cases.add(new TestCase("net_preload.json", "setting", "streamline", "sogou.mobile.explore.streamline"));
+            cases.add(new TestCase("reading_mode.json", "browser", "streamline", "sogou.mobile.explore.streamline"));
+
+            RequestBody body4 = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(cases));
+
+            //这里的key必须这么写，否则服务端无法识别
+            map.put("file\"; filename=\""+ "net_font.json", body1);
+            map.put("file\"; filename=\""+ "net_preload.json", body2);
+            map.put("file\"; filename=\""+ "reading_mode.json", body3);
+            map.put("extras", body4);
+        }catch (Exception e){
+
+        }
+
+        /*String path = Environment.getExternalStorageDirectory() + File.separator + "coverage.ec";
         File file = new File(path);
         RequestBody fileOne = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody fileTwo = RequestBody.create(MediaType.parse("image/*"),
@@ -45,7 +79,7 @@ public class NetManager {
         //这里的key必须这么写，否则服务端无法识别
         map.put("file\"; filename=\""+ file.getName(), fileOne);
         map.put("file\"; filename=\""+ "2.txt", fileTwo);
-        map.put("folderName", RequestBody.create(MediaType.parse("text/plain"), "feed"));
+        map.put("folderName", RequestBody.create(MediaType.parse("text/plain"), "feed"));*/
 
         Call<ResponseBody> call = retrofit.create(NetService.class).uploadFiles(map);
         call.enqueue(new Callback<ResponseBody>() {
@@ -59,6 +93,18 @@ public class NetManager {
                 Log.e("onResponse", t.toString());
             }
         });
+    }
+
+    public static byte[] readStream(InputStream inStream) throws Exception{
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = -1;
+        while((len = inStream.read(buffer)) != -1){
+            outStream.write(buffer, 0, len);
+        }
+        outStream.close();
+        inStream.close();
+        return outStream.toByteArray();
     }
 
     public static void download(){

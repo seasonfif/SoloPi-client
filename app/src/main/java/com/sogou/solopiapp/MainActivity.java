@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.sogou.modulebus.routerbus.RouterBus;
-
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     Button upload, download;
@@ -28,7 +26,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.upload:
-                NetManager.upload();
+                NetManager.upload(this);
 //                RouterBus.getInstance().build("/LoginActivity").navigation(this);
                 break;
 
