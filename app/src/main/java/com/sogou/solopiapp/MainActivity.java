@@ -1,5 +1,6 @@
 package com.sogou.solopiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -31,7 +32,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.download:
-                NetManager.download();
+                startActivity(new Intent(this, CaseListActivity.class));
 //                ARouter.getInstance().build("/test/activity").navigation();
                 break;
         }

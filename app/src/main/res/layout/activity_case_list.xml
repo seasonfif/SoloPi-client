@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".CaseListActivity">
 
     <Button
-        android:id="@+id/upload"
+        android:id="@+id/many"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="upload"
+        android:text="批量下载"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/download"
+    <ListView
+        android:id="@+id/case_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="case list"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload"/>
+        app:layout_constraintTop_toBottomOf="@id/many"/>
 
 </android.support.constraint.ConstraintLayout>
